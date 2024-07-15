@@ -2,10 +2,12 @@ import dataclasses
 import enum
 
 import numpy as np
+import numpy.typing as npt
 
 
 STOCHASTIC_MATRIX_0 = np.array([[0.2, 0.8], [0.8, 0.2]])
-STOCHASTIC_MATRIX_1 = np.array([[0.85, 0.4], [0.15, 0.6]])
+STOCHASTIC_MATRIX_1 = np.array([[0.85, 0.15], [0.4, 0.6]])
+STOCHASTIC_MATRICES = [STOCHASTIC_MATRIX_0, STOCHASTIC_MATRIX_1]
 
 AXIS = enum.Enum("Axis", ["FREQUENCY", "INTENSITY", "DENSITY"])
 FREQUENCY_REGIONS = enum.Enum("FrequencyRegions", ["F0", "F1"])
@@ -20,5 +22,31 @@ class State:
     density_region: DENSITY_REGIONS
 
 
-def get_next_state(state: State) -> State:
-    pass
+def get_next_state(
+    state: npt.ArrayLike, random_number_generator: np.random.Generator
+) -> npt.NDArray:
+    state_vector = np.array(state)
+    assert state_vector.ndim == 1
+    probabilities = _compute_probabilities_for_state_vector(state_vector)
+    print(probabilities)
+    return np.array(
+        [random_number_generator.choice([0, 1], p=p) for p in probabilities]
+    )
+
+
+def _compute_probabilities_for_state_vector(state: npt.NDArray) -> [npt.NDArray]:
+    return [
+        _compute_probability_for_one_state_variable(state, state_index)
+        for state_index in range(len(state))
+    ]
+
+
+def _compute_probability_for_one_state_variable(state, state_index) -> npt.NDArray:
+    stochastic_matrix = np.zeros(STOCHASTIC_MATRIX_0.shape)
+    for index in range(len(state)):
+        if index == state_index:
+            continue
+        # a deterministic math expression that evaluates to either 0 or 1
+        matrix_index = (state[index] + (state_index - index) % 3) % 2
+        stochastic_matrix += STOCHASTIC_MATRICES[matrix_index] / (len(state) - 1)
+    return stochastic_matrix[state[state_index]]
