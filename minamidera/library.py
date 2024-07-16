@@ -22,19 +22,32 @@ class State:
     density_region: DENSITY_REGIONS
 
 
+def generate_state_sequence(
+    initial_state: npt.ArrayLike,
+    sequence_length: int,
+    random_number_generator: np.random.Generator,
+) -> npt.NDArray:
+    assert sequence_length > 1
+    state_sequence = [initial_state]
+    state = initial_state
+    for _ in range(sequence_length - 1):
+        state = get_next_state(state, random_number_generator)
+        state_sequence.append(state)
+    return state_sequence
+
+
 def get_next_state(
     state: npt.ArrayLike, random_number_generator: np.random.Generator
 ) -> npt.NDArray:
     state_vector = np.array(state)
     assert state_vector.ndim == 1
     probabilities = _compute_probabilities_for_state_vector(state_vector)
-    print(probabilities)
     return np.array(
         [random_number_generator.choice([0, 1], p=p) for p in probabilities]
     )
 
 
-def _compute_probabilities_for_state_vector(state: npt.NDArray) -> [npt.NDArray]:
+def _compute_probabilities_for_state_vector(state: npt.NDArray) -> list[npt.NDArray]:
     return [
         _compute_probability_for_one_state_variable(state, state_index)
         for state_index in range(len(state))
