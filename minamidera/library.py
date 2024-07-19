@@ -1,5 +1,6 @@
 import dataclasses
 import enum
+import itertools
 
 import numpy as np
 import numpy.typing as npt
@@ -20,6 +21,17 @@ class State:
     frequency_region: FREQUENCY_REGIONS
     intensity_region: INTENSITY_REGIONS
     density_region: DENSITY_REGIONS
+
+
+def enumerate_state_vectors(number_of_state_variables, number_of_discrete_state_values):
+    return {
+        key: value
+        for key, value in enumerate(
+            itertools.product(
+                range(number_of_discrete_state_values), repeat=number_of_state_variables
+            )
+        )
+    }
 
 
 def generate_state_sequence(
