@@ -20,18 +20,29 @@ def enumerate_state_vectors(number_of_state_variables, number_of_discrete_state_
     }
 
 
+def generate_state_sequences(
+    initial_states: tuple[npt.ArrayLike, ...],
+    sequence_length: int,
+    random_number_generator: np.random.Generator,
+) -> tuple[tuple[npt.NDArray, ...], ...]:
+    return tuple(
+        generate_state_sequence(initial_state, sequence_length, random_number_generator)
+        for initial_state in initial_states
+    )
+
+
 def generate_state_sequence(
     initial_state: npt.ArrayLike,
     sequence_length: int,
     random_number_generator: np.random.Generator,
-) -> npt.NDArray:
+) -> tuple[npt.NDArray, ...]:
     assert sequence_length > 1
-    state_sequence = [initial_state]
+    state_sequence = [np.array(initial_state)]
     state = initial_state
     for _ in range(sequence_length - 1):
         state = get_next_state(state, random_number_generator)
         state_sequence.append(state)
-    return state_sequence
+    return tuple(state_sequence)
 
 
 def get_next_state(
