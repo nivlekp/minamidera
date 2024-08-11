@@ -1,7 +1,6 @@
 from collections.abc import Iterable
 
 import numpy.typing as npt
-
 import pang
 
 

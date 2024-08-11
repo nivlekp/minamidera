@@ -1,4 +1,3 @@
-from . import library
-from . import states
+from . import library, states
 
 __all__ = ["library", "states"]

@@ -3,7 +3,6 @@ import itertools
 import numpy as np
 import numpy.typing as npt
 
-
 STOCHASTIC_MATRIX_0 = np.array([[0.2, 0.8], [0.8, 0.2]])
 STOCHASTIC_MATRIX_1 = np.array([[0.85, 0.15], [0.4, 0.6]])
 STOCHASTIC_MATRICES = [STOCHASTIC_MATRIX_0, STOCHASTIC_MATRIX_1]

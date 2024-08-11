@@ -1,7 +1,6 @@
 import dataclasses
 import enum
 
-
 AXIS = enum.Enum("Axis", ["FREQUENCY", "INTENSITY", "DENSITY"])
 FREQUENCY_REGIONS = enum.Enum("FrequencyRegions", ["F0", "F1"])
 INTENSITY_REGIONS = enum.Enum("IntensityRegions", ["G0", "G1"])
