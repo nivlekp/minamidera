@@ -28,6 +28,7 @@ def test_generating_state_sequences():
     )
     assert len(state_sequences) == number_of_state_vectors
     assert all([len(sequence) == sequence_length for sequence in state_sequences])
+    # TODO: assert statistical properties perhaps
 
 
 def test_enumerating_state_vectors():
