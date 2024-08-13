@@ -24,7 +24,9 @@ class State:
                 f"The shape of the state vector {state_vector} does not match the shape of the state dataclass {dataclasses.fields(cls)}"
             )
         if any(state not in (0, 1) for state in state_vector):
-            raise ValueError(f"The state vector contains value other than 0 and 1")
+            raise ValueError(
+                f"The state vector {state_vector} contains value other than 0 and 1"
+            )
         return cls(
             FREQUENCY_REGIONS(state_vector[0] + 1),
             INTENSITY_REGIONS(state_vector[1] + 1),
