@@ -1,6 +1,5 @@
 import numpy as np
 import pang
-import pytest
 
 from minamidera import library, statemapper
 
