@@ -1,3 +1,3 @@
-from . import library, statemapper, statetransition
+from . import library, soundpointsgenerators, statemapper, statetransition
 
-__all__ = ["library", "statemapper", "statetransition"]
+__all__ = ["library", "soundpointsgenerators", "statemapper", "statetransition"]

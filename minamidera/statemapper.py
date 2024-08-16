@@ -3,7 +3,8 @@ from collections.abc import Iterable
 import numpy.typing as npt
 import pang
 
-from .library import State
+from .library import DENSITY_MAP, DURATION_MAP, INTENSITY_MAP, PITCHES_MAP, State
+from .soundpointsgenerators import AtaxicSoundPointsGenerator
 
 
 def map_state_sequence(state_sequence: Iterable[npt.NDArray]) -> pang.Sequence:
@@ -18,4 +19,9 @@ def map_state(state: npt.NDArray) -> pang.Sequence:
 
 
 def map_state_to_sound_points_generator(state: State) -> pang.SoundPointsGenerator:
-    raise NotImplementedError
+    return AtaxicSoundPointsGenerator(
+        PITCHES_MAP[state.frequency_region],
+        INTENSITY_MAP[state.intensity_region],
+        DENSITY_MAP[state.density_region],
+        DURATION_MAP[state.duration_region],
+    )
