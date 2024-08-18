@@ -1,5 +1,6 @@
-from collections.abc import Iterable
+from collections.abc import Collection
 
+import numpy as np
 import numpy.typing as npt
 import pang
 
@@ -7,19 +8,32 @@ from .library import DENSITY_SETS, DURATION_SETS, INTENSITY_SETS, PITCHES_SETS
 from .soundpointsgenerators import AtaxicSoundPointsGenerator
 
 
-def map_state_sequence(state_sequence: Iterable[npt.NDArray]) -> pang.Sequence:
-    sequence = pang.Sequence.empty_sequence()
-    for state in state_sequence:
-        sequence.extend(map_state(state))
-    return sequence
+def map_state_sequence(
+    state_sequence: Collection[npt.NDArray], state_duration: float, seed: int
+) -> pang.Sequence:
+    return pang.Sequence.from_sequences(
+        [
+            map_state(state, state_duration, random_number_generator)
+            for state, random_number_generator in zip(
+                state_sequence, np.random.default_rng(seed).spawn(len(state_sequence))
+            )
+        ]
+    )
 
 
-def map_state(state: npt.NDArray) -> pang.Sequence:
-    raise NotImplementedError
+def map_state(
+    state: npt.NDArray,
+    state_duration: float,
+    random_number_generator: np.random.Generator,
+) -> pang.Sequence:
+    return pang.Sequence.from_sound_points_generator(
+        map_state_vector_to_sound_points_generator(state, random_number_generator),
+        state_duration,
+    )
 
 
 def map_state_vector_to_sound_points_generator(
-    state_vector: npt.NDArray, seed: int
+    state_vector: npt.NDArray, seed: int | np.random.Generator
 ) -> pang.SoundPointsGenerator:
     if len(state_vector) != 4:
         raise ValueError(
