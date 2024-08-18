@@ -1,7 +1,5 @@
-import statistics
-
-import pang
 import numpy as np
+import pang
 
 
 class AtaxicSoundPointsGenerator(pang.SoundPointsGenerator):
