@@ -8,3 +8,4 @@ def test_generating_ataxic_sound_points():
     assert sound_points != []
     instances = [sound_point.instance for sound_point in sound_points]
     assert instances == sorted(instances)
+    assert len(instances) == 10
