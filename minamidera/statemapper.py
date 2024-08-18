@@ -19,7 +19,7 @@ def map_state(state: npt.NDArray) -> pang.Sequence:
 
 
 def map_state_vector_to_sound_points_generator(
-    state_vector: npt.NDArray,
+    state_vector: npt.NDArray, seed: int
 ) -> pang.SoundPointsGenerator:
     if len(state_vector) != 4:
         raise ValueError(
@@ -34,5 +34,5 @@ def map_state_vector_to_sound_points_generator(
         INTENSITY_SETS[state_vector[1]],
         DENSITY_SETS[state_vector[2]],
         DURATION_SETS[state_vector[3]],
-        238492,
+        seed,
     )
