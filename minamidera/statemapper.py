@@ -34,4 +34,5 @@ def map_state_vector_to_sound_points_generator(
         INTENSITY_SETS[state_vector[1]],
         DENSITY_SETS[state_vector[2]],
         DURATION_SETS[state_vector[3]],
+        238492,
     )
