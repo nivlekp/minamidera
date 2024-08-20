@@ -14,6 +14,11 @@ def test_mapping_one_state_to_sequence():
     assert sequence.sequence_duration == 10
 
 
+def test_mapping_100_states_to_sequence():
+    sequence = statemapper.map_state_sequence([np.array([0, 1, 0, 1])] * 100, 10, 99999)
+    assert sequence.sequence_duration == 1000
+
+
 def test_mapping_sound_point_generator_from_invalid_state_vector_length():
     with pytest.raises(ValueError) as exception_info:
         statemapper.map_state_vector_to_sound_points_generator(
