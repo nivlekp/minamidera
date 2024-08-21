@@ -74,9 +74,6 @@ test:
 	make isort-check
 	make pytest
 
-sections:
-	@python ${PANG_PATH}/scripts/make_sections.py --sections $(sections)
-
 score:
 	@python ${PANG_PATH}/scripts/make_score.py
 
