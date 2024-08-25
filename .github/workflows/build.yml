@@ -66,3 +66,14 @@ jobs:
         make isort-check
         make pytest
         make mypy
+    - name: Install LuaLaTeX
+      run: |
+        sudo apt update
+        sudo apt install -y texlive-latex-base texlive-fonts-recommended
+        sudo apt install -y texlive texlive-latex-extra texlive-luatex
+        lualatex --version
+    - name: Test Segments
+      run: |
+        export PATH=/tmp/lilypond-${LILYPOND_VERSION}/bin:/home/runner/bin:$PATH
+        export PANG_PATH=${PANG_PATH}
+        make test-sections
