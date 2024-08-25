@@ -1,6 +1,5 @@
 import abjad
 
-
 PITCHES_SETS = [{-6, -5, -4, 0, (1, 2), 3}, {-32, -30, 24, 27}]
 
 INTENSITY_SETS = [{-1, 0}, {-2, 2}]
