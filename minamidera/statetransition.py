@@ -19,6 +19,22 @@ def enumerate_state_vectors(number_of_state_variables, number_of_discrete_state_
     }
 
 
+def generate_flatten_state_sequences(
+    initial_states: tuple[npt.ArrayLike, ...],
+    sequence_length: int,
+    random_number_generator: np.random.Generator,
+) -> tuple[npt.NDArray, ...]:
+    return tuple(
+        state
+        for states in zip(
+            *generate_state_sequences(
+                initial_states, sequence_length, random_number_generator
+            )
+        )
+        for state in states
+    )
+
+
 def generate_state_sequences(
     initial_states: tuple[npt.ArrayLike, ...],
     sequence_length: int,

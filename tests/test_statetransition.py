@@ -31,6 +31,19 @@ def test_generating_state_sequences():
     # TODO: assert statistical properties perhaps
 
 
+def test_generating_flatten_state_sequences():
+    initial_state = (0, 0, 0, 0)
+    number_of_state_vectors = 100
+    initial_states = tuple(initial_state for _ in range(number_of_state_vectors))
+    sequence_length = 10
+    state_sequences = statetransition.generate_flatten_state_sequences(
+        initial_states, sequence_length, np.random.default_rng()
+    )
+    assert len(state_sequences) == number_of_state_vectors * sequence_length
+    assert all([tuple(state) == initial_state for state in state_sequences[:100]])
+    # TODO: assert statistical properties perhaps
+
+
 def test_enumerating_state_vectors():
     assert statetransition.enumerate_state_vectors(4, 2) == {
         0: (0, 0, 0, 0),

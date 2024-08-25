@@ -9,7 +9,7 @@ on:
 
 env:
   LILYPOND_VERSION: 2.25.16
-  PANG_COMMIT: 63a6320d8bd680feffcb6d22e5743bf9d9ed28af
+  PANG_COMMIT: 007ce738b9d1bc89de1b2f4e0599efaf653f0006
   PANG_PATH: /tmp/pang
 
 jobs:
@@ -51,6 +51,7 @@ jobs:
       run: |
         export PATH=/tmp/lilypond-${LILYPOND_VERSION}/bin:/home/runner/bin:$PATH
         python -m pip install -e .[test]
+        import_abjad_ily
         black --version
         flake8 --version
         isort --version
@@ -59,10 +60,20 @@ jobs:
         lilypond --version
     - name: Checks and Tests
       run: |
-        export MYPYPATH=$MYPYPATH:${PANG_PATH}
         export PATH=/tmp/lilypond-${LILYPOND_VERSION}/bin:/home/runner/bin:$PATH
         make black-check
         make flake8
         make isort-check
         make pytest
         make mypy
+    - name: Install LuaLaTeX
+      run: |
+        sudo apt update
+        sudo apt install -y texlive-latex-base texlive-fonts-recommended
+        sudo apt install -y texlive texlive-latex-extra texlive-luatex
+        lualatex --version
+    - name: Test Segments
+      run: |
+        export PATH=/tmp/lilypond-${LILYPOND_VERSION}/bin:/home/runner/bin:$PATH
+        export PANG_PATH=${PANG_PATH}
+        make test-sections
