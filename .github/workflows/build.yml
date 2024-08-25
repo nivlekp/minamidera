@@ -51,6 +51,7 @@ jobs:
       run: |
         export PATH=/tmp/lilypond-${LILYPOND_VERSION}/bin:/home/runner/bin:$PATH
         python -m pip install -e .[test]
+        import_abjad_ily
         black --version
         flake8 --version
         isort --version
@@ -59,7 +60,6 @@ jobs:
         lilypond --version
     - name: Checks and Tests
       run: |
-        export MYPYPATH=$MYPYPATH:${PANG_PATH}
         export PATH=/tmp/lilypond-${LILYPOND_VERSION}/bin:/home/runner/bin:$PATH
         make black-check
         make flake8
