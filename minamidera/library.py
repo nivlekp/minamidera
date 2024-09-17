@@ -1,4 +1,5 @@
 import abjad
+import pang
 
 PITCHES_SETS = [{-6, -5, -4, 0, (1, 2), 3}, {-32, -30, 24, 27}]
 
@@ -46,3 +47,19 @@ def make_empty_score():
     )
     score = abjad.Score([piano_music_staff], name=SCORE_NAME)
     return score
+
+
+class TrebleNoteServer(pang.NoteServer):
+    def can_serve(self, sound_point: pang.SoundPoint) -> bool:
+        pitch = sound_point.pitch
+        if isinstance(pitch, float) or isinstance(pitch, int):
+            return pitch >= -6
+        return all(p >= 6 for p in pitch)
+
+
+class BassNoteServer(pang.NoteServer):
+    def can_serve(self, sound_point: pang.SoundPoint) -> bool:
+        pitch = sound_point.pitch
+        if isinstance(pitch, float) or isinstance(pitch, int):
+            return pitch <= 6
+        return all(p <= 6 for p in pitch)

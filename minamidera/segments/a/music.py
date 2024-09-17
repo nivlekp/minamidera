@@ -5,13 +5,13 @@ import numpy as np
 import pang
 from abjadext import nauert
 
-import minamidera
+from minamidera import library, statemapper, statetransition
 
 
 def main():
-    scope = pang.Scope(voice_name=minamidera.library.PIANO_MUSIC_VOICE_0_NAME)
-    sequence = minamidera.statemapper.map_state_sequence(
-        minamidera.statetransition.generate_flatten_state_sequences(
+    score = library.make_empty_score()
+    sequence = statemapper.map_state_sequence(
+        statetransition.generate_flatten_state_sequences(
             tuple([[0, 1, 0, 1]] * 10), 4, np.random.default_rng(6206365342936)
         ),
         5,
@@ -30,14 +30,27 @@ def main():
     q_schema = nauert.MeasurewiseQSchema(
         search_tree=search_tree, tempo=tempo, time_signature=(4, 4)
     )
-    grace_handler = nauert.DiscardingGraceHandler()
-    command = pang.QuantizeSequenceCommand(
+    quantizing_metadata = pang.populate_voices_from_sequence(
         sequence,
-        q_schema=q_schema,
-        grace_handler=grace_handler,
+        (
+            pang.VoiceSpecification(
+                score[library.PIANO_MUSIC_VOICE_0_NAME],
+                note_server=library.TrebleNoteServer(),
+                q_schema=q_schema,
+                grace_handler=nauert.DiscardingGraceHandler(),
+            ),
+            pang.VoiceSpecification(
+                score[library.PIANO_MUSIC_VOICE_1_NAME],
+                note_server=library.BassNoteServer(),
+                q_schema=q_schema,
+                grace_handler=nauert.DiscardingGraceHandler(),
+            ),
+        ),
     )
-    score = minamidera.library.make_empty_score()
-    metadata = pang.build.section(score, scope, command)
+    metadata = pang.build.collect_metadata(score, quantizing_metadata)
+    abjad.attach(
+        abjad.Clef("bass"), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_1_NAME], 0)
+    )
     pang.build.persist(score, metadata)
 
 
