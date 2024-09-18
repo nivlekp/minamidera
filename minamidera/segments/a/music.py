@@ -8,13 +8,14 @@ from abjadext import nauert
 from minamidera import library, statemapper, statetransition
 
 
-def main():
+def main() -> None:
     score = library.make_empty_score()
     sequence = statemapper.map_state_sequence(
         statetransition.generate_flatten_state_sequences(
             tuple([[0, 1, 0, 1]] * 10), 4, np.random.default_rng(6206365342936)
         ),
         5,
+        0.2,
         747298379237,
     )
     search_tree = nauert.UnweightedSearchTree(

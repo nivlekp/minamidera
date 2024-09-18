@@ -9,11 +9,19 @@ from .soundpointsgenerators import AtaxicSoundPointsGenerator
 
 
 def map_state_sequence(
-    state_sequence: Collection[npt.NDArray], state_duration: float, seed: int
+    state_sequence: Collection[npt.NDArray],
+    state_duration: float,
+    minimum_sound_point_duration: float,
+    seed: int,
 ) -> pang.Sequence:
     return pang.Sequence.from_sequences(
         [
-            map_state(state, state_duration, random_number_generator)
+            map_state(
+                state,
+                state_duration,
+                minimum_sound_point_duration,
+                random_number_generator,
+            )
             for state, random_number_generator in zip(
                 state_sequence, np.random.default_rng(seed).spawn(len(state_sequence))
             )
@@ -24,16 +32,19 @@ def map_state_sequence(
 def map_state(
     state: npt.NDArray,
     state_duration: float,
+    minimum_sound_point_duration: float,
     random_number_generator: np.random.Generator,
 ) -> pang.Sequence:
     return pang.Sequence.from_sound_points_generator(
-        map_state_vector_to_sound_points_generator(state, random_number_generator),
+        map_state_vector_to_sound_points_generator(
+            state, minimum_sound_point_duration, random_number_generator
+        ),
         state_duration,
     )
 
 
 def map_state_vector_to_sound_points_generator(
-    state_vector: npt.NDArray, seed: int | np.random.Generator
+    state_vector: npt.NDArray, minimum_duration: float, seed: int | np.random.Generator
 ) -> pang.SoundPointsGenerator:
     if len(state_vector) != 4:
         raise ValueError(
@@ -48,5 +59,6 @@ def map_state_vector_to_sound_points_generator(
         INTENSITY_SETS[state_vector[1]],
         DENSITY_SETS[state_vector[2]],
         DURATION_SETS[state_vector[3]],
+        minimum_duration,
         seed,
     )
