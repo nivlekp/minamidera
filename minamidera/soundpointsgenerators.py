@@ -1,3 +1,5 @@
+import dataclasses
+
 import numpy as np
 import pang
 from numpy import typing as npt
@@ -54,3 +56,25 @@ class AtaxicSoundPointsGenerator(pang.SoundPointsGenerator):
         return self._random_number_generator.choice(
             self.pitches_set, number_of_sound_points
         ).tolist()
+
+
+@dataclasses.dataclass
+class SoundPointsGeneratorFactory:
+    minimum_duration: float = 0.0
+
+    def create(
+        self,
+        pitches_set: set[float | tuple[float, ...]],
+        intensity_set: set[int],
+        density_set: set[float],
+        duration_set: set[float],
+        seed: int | np.random.Generator,
+    ) -> pang.SoundPointsGenerator:
+        return AtaxicSoundPointsGenerator(
+            pitches_set,
+            intensity_set,
+            density_set,
+            duration_set,
+            self.minimum_duration,
+            seed,
+        )

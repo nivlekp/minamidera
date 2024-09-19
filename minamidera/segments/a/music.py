@@ -6,6 +6,7 @@ import pang
 from abjadext import nauert
 
 from minamidera import library, statemapper, statetransition
+from minamidera.soundpointsgenerators import SoundPointsGeneratorFactory
 
 
 def main() -> None:
@@ -15,7 +16,7 @@ def main() -> None:
             tuple([[0, 1, 0, 1]] * 10), 4, np.random.default_rng(6206365342936)
         ),
         5,
-        0.2,
+        SoundPointsGeneratorFactory(0.2),
         747298379237,
     )
     search_tree = nauert.UnweightedSearchTree(
