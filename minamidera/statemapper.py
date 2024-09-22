@@ -5,15 +5,23 @@ import numpy.typing as npt
 import pang
 
 from .library import DENSITY_SETS, DURATION_SETS, INTENSITY_SETS, PITCHES_SETS
-from .soundpointsgenerators import AtaxicSoundPointsGenerator
+from .soundpointsgenerators import SoundPointsGeneratorFactory
 
 
 def map_state_sequence(
-    state_sequence: Collection[npt.NDArray], state_duration: float, seed: int
+    state_sequence: Collection[npt.NDArray],
+    state_duration: float,
+    sound_points_generator_factory: SoundPointsGeneratorFactory,
+    seed: int,
 ) -> pang.Sequence:
     return pang.Sequence.from_sequences(
         [
-            map_state(state, state_duration, random_number_generator)
+            map_state(
+                state,
+                state_duration,
+                sound_points_generator_factory,
+                random_number_generator,
+            )
             for state, random_number_generator in zip(
                 state_sequence, np.random.default_rng(seed).spawn(len(state_sequence))
             )
@@ -24,16 +32,21 @@ def map_state_sequence(
 def map_state(
     state: npt.NDArray,
     state_duration: float,
+    sound_points_generator_factory: SoundPointsGeneratorFactory,
     random_number_generator: np.random.Generator,
 ) -> pang.Sequence:
     return pang.Sequence.from_sound_points_generator(
-        map_state_vector_to_sound_points_generator(state, random_number_generator),
+        map_state_vector_to_sound_points_generator(
+            state, sound_points_generator_factory, random_number_generator
+        ),
         state_duration,
     )
 
 
 def map_state_vector_to_sound_points_generator(
-    state_vector: npt.NDArray, seed: int | np.random.Generator
+    state_vector: npt.NDArray,
+    sound_points_generator_factory: SoundPointsGeneratorFactory,
+    seed: int | np.random.Generator,
 ) -> pang.SoundPointsGenerator:
     if len(state_vector) != 4:
         raise ValueError(
@@ -43,7 +56,7 @@ def map_state_vector_to_sound_points_generator(
         raise ValueError(
             f"The state vector {state_vector} contains value other than 0 and 1"
         )
-    return AtaxicSoundPointsGenerator(
+    return sound_points_generator_factory.create(
         PITCHES_SETS[state_vector[0]],
         INTENSITY_SETS[state_vector[1]],
         DENSITY_SETS[state_vector[2]],

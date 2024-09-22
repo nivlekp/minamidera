@@ -82,7 +82,7 @@ tszkiu-metronome-mark =
     "Tsz Kiu Pang"
   }
   tagline = ##f
-  title = "The Last Unicorns"
+  title = "Minamidera"
   instrument = "for piano"
 }
 
@@ -136,7 +136,7 @@ tszkiu-metronome-mark =
 
   oddFooterMarkup = \markup \fill-line {
     \concat {
-      "The Last Unicorns"
+      "Minamidera"
       "  "
       \char ##x2014
       "  "
@@ -150,7 +150,7 @@ tszkiu-metronome-mark =
 
   evenFooterMarkup = \markup \fill-line {
     \concat {
-      "The Last Unicorns"
+      "Minamidera"
       "  "
       \char ##x2014
       "  "

@@ -1,16 +1,30 @@
+import dataclasses
+
 import numpy as np
 import pang
+from numpy import typing as npt
 
 
 class AtaxicSoundPointsGenerator(pang.SoundPointsGenerator):
-    def __init__(self, pitches_set, intensity_set, density_set, duration_set, seed):
+    def __init__(
+        self,
+        pitches_set,
+        intensity_set,
+        density_set,
+        duration_set,
+        minimum_duration,
+        seed,
+    ):
         self.pitches_set = np.array(tuple(pitches_set), dtype="O")
         self.intensity_set = intensity_set
         self.density_set = density_set
         self.duration_set = duration_set
+        if minimum_duration < 0.0:
+            raise ValueError(f"minimum_duration {minimum_duration} is less than 0")
+        self.minimum_duration = minimum_duration
         self._random_number_generator = np.random.default_rng(seed)
 
-    def __call__(self, sequence_duration):
+    def __call__(self, sequence_duration: float) -> list[pang.SoundPoint]:
         instances = self._generate_instances(sequence_duration)
         durations = self._generate_durations(len(instances))
         pitches = self._generate_pitches(len(instances))
@@ -23,7 +37,7 @@ class AtaxicSoundPointsGenerator(pang.SoundPointsGenerator):
             )
         ]
 
-    def _generate_instances(self, sequence_duration):
+    def _generate_instances(self, sequence_duration: float) -> list[float]:
         (density,) = self.density_set
         return sorted(
             self._random_number_generator.uniform(
@@ -31,13 +45,36 @@ class AtaxicSoundPointsGenerator(pang.SoundPointsGenerator):
             )
         )
 
-    def _generate_durations(self, number_of_sound_points):
+    def _generate_durations(self, number_of_sound_points) -> npt.NDArray[np.float64]:
         (duration,) = self.duration_set
-        return self._random_number_generator.exponential(
-            duration, number_of_sound_points
+        return (
+            self._random_number_generator.exponential(duration, number_of_sound_points)
+            + self.minimum_duration
         )
 
-    def _generate_pitches(self, number_of_sound_points):
+    def _generate_pitches(self, number_of_sound_points) -> list[float]:
         return self._random_number_generator.choice(
             self.pitches_set, number_of_sound_points
         ).tolist()
+
+
+@dataclasses.dataclass
+class SoundPointsGeneratorFactory:
+    minimum_duration: float = 0.0
+
+    def create(
+        self,
+        pitches_set: set[float | tuple[float, ...]],
+        intensity_set: set[int],
+        density_set: set[float],
+        duration_set: set[float],
+        seed: int | np.random.Generator,
+    ) -> pang.SoundPointsGenerator:
+        return AtaxicSoundPointsGenerator(
+            pitches_set,
+            intensity_set,
+            density_set,
+            duration_set,
+            self.minimum_duration,
+            seed,
+        )

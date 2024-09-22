@@ -1,11 +1,19 @@
 {
-    "duration": 224.6153846153846,
+    "duration": 200.0,
     "last_metronome_mark": {
         "reference_duration": "1/4",
         "units_per_minute": 78.0
     },
     "last_time_signature": "4/4",
-    "empty_beatspan": "1/16",
-    "discarded_q_events_count": 45,
-    "discarded_pitched_q_events_count": 44
+    "empty_beatspan": "3/8",
+    "per_voice_metadata": {
+        "Piano.Music.0": {
+            "number_of_all_discarded_q_events": 3,
+            "number_of_discarded_pitched_q_events": 0
+        },
+        "Piano.Music.1": {
+            "number_of_all_discarded_q_events": 6,
+            "number_of_discarded_pitched_q_events": 0
+        }
+    }
 }
