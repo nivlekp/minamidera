@@ -71,6 +71,7 @@ jobs:
         sudo apt update
         sudo apt install -y texlive-latex-base texlive-fonts-recommended
         sudo apt install -y texlive texlive-latex-extra texlive-luatex
+        sudo apt install -y texlive-lang-cjk texlive-xetex
         lualatex --version
     - name: Test Segments
       run: |
