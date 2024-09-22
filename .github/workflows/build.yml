@@ -77,3 +77,15 @@ jobs:
         export PATH=/tmp/lilypond-${LILYPOND_VERSION}/bin:/home/runner/bin:$PATH
         export PANG_PATH=${PANG_PATH}
         make test-sections
+    - name: Test Score
+      run: |
+        export PATH=/tmp/lilypond-${LILYPOND_VERSION}/bin:/home/runner/bin:$PATH
+        export PANG_PATH=${PANG_PATH}
+        make test-score
+        make full-score
+    - name: Upload Full Score
+      uses: actions/upload-artifact@v4
+      with:
+        name: full-score
+        path: minamidera/builds/score/score.pdf
+        compression-level: 0
