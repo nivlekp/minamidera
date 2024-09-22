@@ -54,6 +54,7 @@ def main() -> None:
         abjad.Clef("bass"), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_1_NAME], 0)
     )
     pang.build.persist(score, metadata)
+    library.move_music_ily_from_segment_directory_to_build_directory("b")
 
 
 if __name__ == "__main__":
