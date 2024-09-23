@@ -23,7 +23,7 @@ DYNAMIC_CONTEXT_NAME = "Dynamics"
 SCORE_NAME = "Score"
 
 
-def make_empty_score():
+def make_empty_score() -> abjad.Score:
     """
     >>> from minamidera import library
     >>> library.make_empty_score()
