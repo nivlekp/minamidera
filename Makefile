@@ -74,13 +74,10 @@ test:
 	make isort-check
 	make pytest
 
-score:
-	@python ${PANG_PATH}/scripts/make_score.py
-
 score_directory = minamidera/builds/score
 
 full-score:
-	@python ${PANG_PATH}/scripts/make_score.py
+	@python ${PANG_PATH}/pang/scripts/make_score.py
 	# run lualatex on front-cover.tex twice, otherwise rectangle is not
 	# centred
 	@lualatex --output-directory=${score_directory} ${score_directory}/front-cover.tex

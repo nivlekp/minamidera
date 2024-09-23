@@ -20,17 +20,17 @@ def main() -> None:
         abjad.Clef("bass"), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_1_NAME], 0)
     )
     pang.build.persist(score, metadata)
-    library.move_music_ily_from_segment_directory_to_build_directory("a")
+    library.move_music_ily_from_segment_directory_to_build_directory("b")
 
 
 def _sequence() -> pang.Sequence:
     return statemapper.map_state_sequence(
         statetransition.generate_flatten_state_sequences(
-            tuple([[0, 1, 0, 1]] * 10), 4, np.random.default_rng(6206365342936)
+            tuple([[0, 0, 0, 0]] * 10), 4, np.random.default_rng(2457616597649856238)
         ),
         5,
         SoundPointsGeneratorFactory(0.2),
-        747298379237,
+        843282146694832695,
     )
 
 
