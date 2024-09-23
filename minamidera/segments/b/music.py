@@ -23,7 +23,7 @@ def main() -> None:
     library.move_music_ily_from_segment_directory_to_build_directory("b")
 
 
-def _sequence():
+def _sequence() -> pang.Sequence:
     return statemapper.map_state_sequence(
         statetransition.generate_flatten_state_sequences(
             tuple([[0, 0, 0, 0]] * 10), 4, np.random.default_rng(2457616597649856238)
