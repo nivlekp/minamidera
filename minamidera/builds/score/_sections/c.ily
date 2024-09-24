@@ -2323,6 +2323,7 @@
                     g4
                     r2
                 }
+                R1
             }
         >>
         \context Dynamics = "Dynamics"

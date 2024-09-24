@@ -1098,6 +1098,7 @@
                     r8
                     r4
                 }
+                R1
             }
         }
         \context Staff = "Piano_Bass_Staff"
