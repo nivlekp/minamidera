@@ -4,13 +4,36 @@ import shutil
 import abjad
 import pang
 
-PITCHES_SETS = [{-6, -5, -4, 0, (1, 2), 3}, {-32, -30, 24, 27}]
 
-INTENSITY_SETS = [{-1, 0}, {-2, 2}]
+PATTERN_0 = abjad.Pattern(indices=[0], period=2)
+PATTERN_1 = abjad.Pattern(indices=[1], period=3)
+PATTERN_2 = abjad.Pattern(indices=[2], period=5)
+PATTERN_3 = abjad.Pattern(indices=[3], period=7)
 
-DENSITY_SETS = [{0.7}, {3.0}]
+PITCHES_SETS = (
+    set(
+        pang.gen_pitches_from_sieve(
+            sieve=PATTERN_0 | PATTERN_1 | PATTERN_2 | PATTERN_3,
+            origin=0,
+            low=-24,
+            high=24,
+        )
+    ),
+    set(
+        pang.gen_pitches_from_sieve(
+            sieve=(PATTERN_0 | PATTERN_1) & (PATTERN_2 | PATTERN_3),
+            origin=0,
+            low=-36,
+            high=48,
+        )
+    ),
+)
 
-DURATION_SETS = [{0.3}, {1.0}]
+INTENSITY_SETS = ({-1, 0}, {-2, 2})
+
+DENSITY_SETS = ({0.7}, {3.0})
+
+DURATION_SETS = ({0.3}, {1.0})
 
 
 PIANO_MUSIC_VOICE_0_NAME = "Piano.Music.0"
