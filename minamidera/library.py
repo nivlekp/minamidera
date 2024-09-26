@@ -4,6 +4,7 @@ import shutil
 import abjad
 import pang
 
+from . import pitches as pitches_
 
 PATTERN_0 = abjad.Pattern(indices=[0], period=2)
 PATTERN_1 = abjad.Pattern(indices=[1], period=3)
@@ -11,21 +12,27 @@ PATTERN_2 = abjad.Pattern(indices=[2], period=5)
 PATTERN_3 = abjad.Pattern(indices=[3], period=7)
 
 PITCHES_SETS = (
-    set(
-        pang.gen_pitches_from_sieve(
-            sieve=PATTERN_0 | PATTERN_1 | PATTERN_2 | PATTERN_3,
-            origin=0,
-            low=-24,
-            high=24,
-        )
+    pitches_.single_pitches_to_chords(
+        tuple(
+            pang.gen_pitches_from_sieve(
+                sieve=PATTERN_0 | PATTERN_1 | PATTERN_2 | PATTERN_3,
+                origin=0,
+                low=-24,
+                high=24,
+            )
+        ),
+        (1, 2),
     ),
-    set(
-        pang.gen_pitches_from_sieve(
-            sieve=(PATTERN_0 | PATTERN_1) & (PATTERN_2 | PATTERN_3),
-            origin=0,
-            low=-36,
-            high=48,
-        )
+    pitches_.single_pitches_to_chords(
+        tuple(
+            pang.gen_pitches_from_sieve(
+                sieve=(PATTERN_0 | PATTERN_1) & (PATTERN_2 | PATTERN_3),
+                origin=0,
+                low=-36,
+                high=48,
+            )
+        ),
+        (1, 2),
     ),
 )
 
@@ -89,7 +96,7 @@ class TrebleNoteServer(pang.NoteServer):
         pitch = sound_point.pitch
         if isinstance(pitch, float) or isinstance(pitch, int):
             return pitch >= -6
-        return all(p >= 6 for p in pitch)
+        return all(p >= -6 for p in pitch)
 
 
 class BassNoteServer(pang.NoteServer):
