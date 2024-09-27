@@ -4,13 +4,43 @@ import shutil
 import abjad
 import pang
 
-PITCHES_SETS = [{-6, -5, -4, 0, (1, 2), 3}, {-32, -30, 24, 27}]
+from . import pitches as pitches_
 
-INTENSITY_SETS = [{-1, 0}, {-2, 2}]
+PATTERN_0 = abjad.Pattern(indices=[0], period=2)
+PATTERN_1 = abjad.Pattern(indices=[1], period=3)
+PATTERN_2 = abjad.Pattern(indices=[2], period=5)
+PATTERN_3 = abjad.Pattern(indices=[3], period=7)
 
-DENSITY_SETS = [{0.7}, {3.0}]
+PITCHES_SETS = (
+    pitches_.single_pitches_to_pitches_and_chords(
+        tuple(
+            pang.gen_pitches_from_sieve(
+                sieve=PATTERN_0 | PATTERN_1 | PATTERN_2 | PATTERN_3,
+                origin=0,
+                low=-24,
+                high=24,
+            )
+        ),
+        (1,),
+    ),
+    pitches_.single_pitches_to_pitches_and_chords(
+        tuple(
+            pang.gen_pitches_from_sieve(
+                sieve=(PATTERN_0 | PATTERN_1) & (PATTERN_2 | PATTERN_3),
+                origin=0,
+                low=-36,
+                high=48,
+            )
+        ),
+        (1, 2),
+    ),
+)
 
-DURATION_SETS = [{0.3}, {1.0}]
+INTENSITY_SETS = ({-1, 0}, {-2, 2})
+
+DENSITY_SETS = ({0.7}, {3.0})
+
+DURATION_SETS = ({0.3}, {1.0})
 
 
 PIANO_MUSIC_VOICE_0_NAME = "Piano.Music.0"
@@ -66,7 +96,7 @@ class TrebleNoteServer(pang.NoteServer):
         pitch = sound_point.pitch
         if isinstance(pitch, float) or isinstance(pitch, int):
             return pitch >= -6
-        return all(p >= 6 for p in pitch)
+        return all(p >= -6 for p in pitch)
 
 
 class BassNoteServer(pang.NoteServer):
