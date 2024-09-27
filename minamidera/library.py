@@ -12,7 +12,7 @@ PATTERN_2 = abjad.Pattern(indices=[2], period=5)
 PATTERN_3 = abjad.Pattern(indices=[3], period=7)
 
 PITCHES_SETS = (
-    pitches_.single_pitches_to_chords(
+    pitches_.single_pitches_to_pitches_and_chords(
         tuple(
             pang.gen_pitches_from_sieve(
                 sieve=PATTERN_0 | PATTERN_1 | PATTERN_2 | PATTERN_3,
@@ -21,9 +21,9 @@ PITCHES_SETS = (
                 high=24,
             )
         ),
-        (1, 2),
+        (1,),
     ),
-    pitches_.single_pitches_to_chords(
+    pitches_.single_pitches_to_pitches_and_chords(
         tuple(
             pang.gen_pitches_from_sieve(
                 sieve=(PATTERN_0 | PATTERN_1) & (PATTERN_2 | PATTERN_3),
