@@ -61,7 +61,7 @@ def _q_schema() -> nauert.QSchema:
             }
         ),
         tempo=abjad.MetronomeMark(
-            abjad.Duration(1, 4), fractions.Fraction(78), decimal=True
+            abjad.Duration(1, 4), fractions.Fraction(87.5), decimal=True
         ),
         time_signature=(4, 4),
     )

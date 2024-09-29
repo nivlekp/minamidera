@@ -29,8 +29,8 @@ def _sequence() -> pang.Sequence:
             tuple([[0, 1, 0, 1]] * 10), 4, np.random.default_rng(6206365342936)
         ),
         5,
-        SoundPointsGeneratorFactory(0.2),
-        747298379237,
+        SoundPointsGeneratorFactory(0.75),
+        284564256496838456,
     )
 
 
@@ -39,31 +39,33 @@ def _voice_specifications(score: abjad.Score) -> tuple[pang.VoiceSpecification, 
         pang.VoiceSpecification(
             typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_0_NAME]),
             note_server=library.TrebleNoteServer(),
-            q_schema=_q_schema(),
+            q_schema=_q_schema_right_hand(),
             grace_handler=nauert.DiscardingGraceHandler(),
         ),
         pang.VoiceSpecification(
             typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_1_NAME]),
             note_server=library.BassNoteServer(),
-            q_schema=_q_schema(),
+            q_schema=_q_schema_left_hand(),
             grace_handler=nauert.DiscardingGraceHandler(),
         ),
     )
 
 
-def _q_schema() -> nauert.QSchema:
+def _q_schema_right_hand() -> nauert.QSchema:
+    return _q_schema(nauert.UnweightedSearchTree(definition={2: {2: None}, 3: None}))
+
+
+def _q_schema_left_hand() -> nauert.QSchema:
+    return _q_schema(nauert.UnweightedSearchTree(definition={5: None}))
+
+
+def _q_schema(search_tree: nauert.SearchTree) -> nauert.QSchema:
     return nauert.MeasurewiseQSchema(
-        search_tree=nauert.UnweightedSearchTree(
-            definition={
-                2: {2: None, 3: None},
-                3: {2: None},
-                5: None,
-            }
-        ),
+        search_tree=search_tree,
         tempo=abjad.MetronomeMark(
-            abjad.Duration(1, 4), fractions.Fraction(78), decimal=True
+            abjad.Duration(1, 4), fractions.Fraction(70), decimal=True
         ),
-        time_signature=(4, 4),
+        time_signature=(3, 4),
     )
 
 

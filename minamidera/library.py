@@ -28,8 +28,8 @@ PITCHES_SETS = (
             pang.gen_pitches_from_sieve(
                 sieve=(PATTERN_0 | PATTERN_1) & (PATTERN_2 | PATTERN_3),
                 origin=0,
-                low=-36,
-                high=48,
+                low=-39,
+                high=39,
             )
         ),
         (1, 2),
@@ -38,9 +38,9 @@ PITCHES_SETS = (
 
 INTENSITY_SETS = ({-1, 0}, {-2, 2})
 
-DENSITY_SETS = ({0.7}, {3.0})
+DENSITY_SETS = ({0.5}, {2.5})
 
-DURATION_SETS = ({0.3}, {1.0})
+DURATION_SETS = ({0.2}, {0.4})
 
 
 PIANO_MUSIC_VOICE_0_NAME = "Piano.Music.0"
