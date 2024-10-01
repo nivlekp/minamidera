@@ -91,6 +91,23 @@ def move_music_ily_from_segment_directory_to_build_directory(segment_name: str) 
     shutil.copy(music_ily_path, target_path)
 
 
+def make_metric_modulation_markup(
+    left_rhythm_string: str, right_rhythm_string: str
+) -> abjad.Markup:
+    return abjad.Markup(
+        abjad.string.normalize(
+            " ".join(
+                [
+                    r"\markup",
+                    r"tszkiu-metric-modulation",
+                    left_rhythm_string,
+                    right_rhythm_string,
+                ]
+            )
+        )
+    )
+
+
 class TrebleNoteServer(pang.NoteServer):
     def can_serve(self, sound_point: pang.SoundPoint) -> bool:
         pitch = sound_point.pitch
