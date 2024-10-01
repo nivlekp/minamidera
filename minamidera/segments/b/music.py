@@ -19,6 +19,13 @@ def main() -> None:
     abjad.attach(
         abjad.Clef("bass"), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_1_NAME], 0)
     )
+    abjad.attach(
+        library.make_metric_modulation_markup(
+            r"{ \tuplet 5/4 { r16 r16 16 } }", r"{ \tuplet 7/4 { 8 r8 r8 } }"
+        ),
+        abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], 0),
+        direction=abjad.UP,
+    )
     pang.build.persist(score, metadata)
     library.move_music_ily_from_segment_directory_to_build_directory("b")
 
@@ -39,31 +46,33 @@ def _voice_specifications(score: abjad.Score) -> tuple[pang.VoiceSpecification, 
         pang.VoiceSpecification(
             typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_0_NAME]),
             note_server=library.TrebleNoteServer(),
-            q_schema=_q_schema(),
+            q_schema=_q_schema_right_hand(),
             grace_handler=nauert.DiscardingGraceHandler(),
         ),
         pang.VoiceSpecification(
             typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_1_NAME]),
             note_server=library.BassNoteServer(),
-            q_schema=_q_schema(),
+            q_schema=_q_schema_left_hand(),
             grace_handler=nauert.DiscardingGraceHandler(),
         ),
     )
 
 
-def _q_schema() -> nauert.QSchema:
+def _q_schema_right_hand() -> nauert.QSchema:
+    return _q_schema(nauert.UnweightedSearchTree(definition={7: None}))
+
+
+def _q_schema_left_hand() -> nauert.QSchema:
+    return _q_schema(nauert.UnweightedSearchTree(definition={5: None}))
+
+
+def _q_schema(search_tree: nauert.SearchTree) -> nauert.QSchema:
     return nauert.MeasurewiseQSchema(
-        search_tree=nauert.UnweightedSearchTree(
-            definition={
-                2: {2: None, 3: None},
-                3: {2: None},
-                5: None,
-            }
-        ),
+        search_tree=search_tree,
         tempo=abjad.MetronomeMark(
-            abjad.Duration(1, 4), fractions.Fraction(78), decimal=True
+            abjad.Duration(1, 2), fractions.Fraction(50), decimal=True
         ),
-        time_signature=(4, 4),
+        time_signature=(2, 2),
     )
 
 

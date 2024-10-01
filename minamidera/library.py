@@ -28,8 +28,8 @@ PITCHES_SETS = (
             pang.gen_pitches_from_sieve(
                 sieve=(PATTERN_0 | PATTERN_1) & (PATTERN_2 | PATTERN_3),
                 origin=0,
-                low=-36,
-                high=48,
+                low=-39,
+                high=39,
             )
         ),
         (1, 2),
@@ -38,9 +38,9 @@ PITCHES_SETS = (
 
 INTENSITY_SETS = ({-1, 0}, {-2, 2})
 
-DENSITY_SETS = ({0.7}, {3.0})
+DENSITY_SETS = ({0.5}, {2.5})
 
-DURATION_SETS = ({0.3}, {1.0})
+DURATION_SETS = ({0.2}, {0.4})
 
 
 PIANO_MUSIC_VOICE_0_NAME = "Piano.Music.0"
@@ -89,6 +89,23 @@ def move_music_ily_from_segment_directory_to_build_directory(segment_name: str) 
     target_name = segment_directory.stem + ".ily"
     target_path = _sections_path / target_name
     shutil.copy(music_ily_path, target_path)
+
+
+def make_metric_modulation_markup(
+    left_rhythm_string: str, right_rhythm_string: str
+) -> abjad.Markup:
+    return abjad.Markup(
+        abjad.string.normalize(
+            " ".join(
+                [
+                    r"\markup",
+                    r"\tszkiu-metric-modulation",
+                    left_rhythm_string,
+                    right_rhythm_string,
+                ]
+            )
+        )
+    )
 
 
 class TrebleNoteServer(pang.NoteServer):
