@@ -20,7 +20,7 @@ def main() -> None:
         abjad.Clef("bass"), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_1_NAME], 0)
     )
     pang.build.persist(score, metadata)
-    library.move_music_ily_from_segment_directory_to_build_directory("a")
+    library.symlink_music_ily_from_segment_directory_to_build_directory("a")
 
 
 def _sequence() -> pang.Sequence:
