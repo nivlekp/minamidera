@@ -99,7 +99,7 @@ def make_metric_modulation_markup(
             " ".join(
                 [
                     r"\markup",
-                    r"tszkiu-metric-modulation",
+                    r"\tszkiu-metric-modulation",
                     left_rhythm_string,
                     right_rhythm_string,
                 ]

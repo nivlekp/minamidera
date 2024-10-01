@@ -12,6 +12,7 @@
                     \tempo \markup \abjad-metronome-mark-markup #1 #0 #1 #"50"
                     \time 2/2
                     r2
+                    ^ \markup \tszkiu-metric-modulation { \tuplet 5/4 { r16 r16 16 } } { \tuplet 7/4 { 8 r8 r8 } }
                     \tuplet 7/4
                     {
                         r4.
