@@ -14,6 +14,7 @@
                         \tempo \markup \abjad-metronome-mark-markup #2 #0 #1 #"87.5"
                         \time 4/4
                         r4
+                        ^ \markup \tszkiu-metric-modulation { \tuplet 7/4 { r8 r8 8 } } { 16 }
                         r16
                         <c''' g'''>16
                         ~
