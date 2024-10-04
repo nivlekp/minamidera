@@ -6,7 +6,7 @@ import numpy as np
 import pang
 from abjadext import nauert
 
-from minamidera import library, statemapper, statetransition
+from minamidera import dynamics, library, statemapper, statetransition
 from minamidera.soundpointsgenerators import SoundPointsGeneratorFactory
 
 
@@ -19,6 +19,8 @@ def main() -> None:
     abjad.attach(
         abjad.Clef("bass"), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_1_NAME], 0)
     )
+    dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_0_NAME])
+    dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_1_NAME])
     abjad.attach(
         library.make_metric_modulation_markup(
             r"{ \tuplet 7/4 { r8 r8 8 } }", r"{ 16 }"
