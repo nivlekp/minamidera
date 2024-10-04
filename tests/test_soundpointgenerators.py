@@ -1,3 +1,5 @@
+import abjad
+
 from minamidera import soundpointsgenerators
 
 
@@ -20,5 +22,11 @@ def test_intensities() -> None:
     )(10)
     assert sound_points != []
     assert all(
-        sound_point.attachments[0].name in ("pp", "fff") for sound_point in sound_points
+        next(
+            attachment
+            for attachment in sound_point.attachments
+            if isinstance(attachment, abjad.Dynamic)
+        ).name
+        in ("pp", "fff")
+        for sound_point in sound_points
     )
