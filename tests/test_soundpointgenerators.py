@@ -11,3 +11,14 @@ def test_generating_ataxic_sound_points() -> None:
     assert instances == sorted(instances)
     assert len(instances) == 10
     assert all(sound_point.duration > minimum_duration for sound_point in sound_points)
+
+
+def test_intensities() -> None:
+    intensities = {-3, 4}
+    sound_points = soundpointsgenerators.AtaxicSoundPointsGenerator(
+        {0, 1, 2}, intensities, {1}, {1}, 0, 2984756
+    )(10)
+    assert sound_points != []
+    assert all(
+        sound_point.attachments[0] in intensities for sound_point in sound_points
+    )
