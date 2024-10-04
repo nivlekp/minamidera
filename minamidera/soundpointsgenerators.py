@@ -1,5 +1,6 @@
 import dataclasses
 
+import abjad
 import numpy as np
 import pang
 from numpy import typing as npt
@@ -27,12 +28,12 @@ class AtaxicSoundPointsGenerator(pang.SoundPointsGenerator):
     def __call__(self, sequence_duration: float) -> list[pang.SoundPoint]:
         instances = self._generate_instances(sequence_duration)
         return [
-            pang.SoundPoint(instance, duration, pitch, attachments=[intensity])
-            for instance, duration, pitch, intensity in zip(
+            pang.SoundPoint(instance, duration, pitch, attachments=[dynamic])
+            for instance, duration, pitch, dynamic in zip(
                 instances,
                 self._generate_durations(len(instances)),
                 self._generate_pitches(len(instances)),
-                self._generate_intensities(len(instances)),
+                self._generate_dynamics(len(instances)),
             )
         ]
 
@@ -56,12 +57,15 @@ class AtaxicSoundPointsGenerator(pang.SoundPointsGenerator):
     def _generate_pitches(self, number_of_sound_points: int) -> list[float]:
         return self._random_number_generator.choice(
             self.pitches_set, number_of_sound_points
-        ).tolist()
+        )
 
-    def _generate_intensities(self, number_of_sound_points: int) -> list[int]:
-        return self._random_number_generator.choice(
-            self.intensity_set, number_of_sound_points
-        ).tolist()
+    def _generate_dynamics(self, number_of_sound_points: int) -> list[abjad.Dynamic]:
+        return [
+            abjad.Dynamic(abjad.Dynamic.dynamic_ordinal_to_dynamic_name(intensity))
+            for intensity in self._random_number_generator.choice(
+                self.intensity_set, number_of_sound_points
+            )
+        ]
 
 
 @dataclasses.dataclass
