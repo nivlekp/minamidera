@@ -35,7 +35,7 @@ PITCHES_SETS = (
     ),
 )
 
-INTENSITY_SETS = ({-1, 0}, {-2, 2})
+INTENSITY_SETS = ({-1, 1}, {-2, 2})
 
 DENSITY_SETS = ({0.5}, {2.5})
 
