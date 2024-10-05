@@ -28,7 +28,7 @@ def main() -> None:
 def _sequence() -> pang.Sequence:
     return statemapper.map_state_sequence(
         statetransition.generate_flatten_state_sequences(
-            tuple([[0, 1, 0, 1]] * 10), 4, np.random.default_rng(6206365342936)
+            tuple([[1, 0, 1, 0]] * 10), 4, np.random.default_rng(6206365342936)
         ),
         5,
         SoundPointsGeneratorFactory(0.75),
