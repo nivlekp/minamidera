@@ -26,8 +26,15 @@ def main() -> None:
         abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], 0),
         direction=abjad.UP,
     )
+    abjad.attach(
+        abjad.BarLine("|."), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], -1)
+    )
+    abjad.attach(
+        abjad.LilyPondLiteral(r"\end-note", site="after"),
+        abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], -1),
+    )
     pang.build.persist(score, metadata)
-    library.symlink_music_ily_from_segment_directory_to_build_directory("c")
+    library.symlink_music_ily_from_segment_directory_to_build_directory("d")
 
 
 def _sequence() -> pang.Sequence:
