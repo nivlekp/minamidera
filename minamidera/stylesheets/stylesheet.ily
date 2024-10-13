@@ -169,10 +169,9 @@ end-note = {
     \mark \markup {
         \fontsize #-2
         \column {
-          \line {"On Gadigal Land,"}
-          \line {"Boonwurrung Country,"}
-          \line {"Osaka, and Naoshima"}
-          \line {"(November 2023 - May 2024)."}
+          \line {"Naarm"}
+          \hspace #0
+          \line {"(June - October 2024)."}
       }
     }
 }

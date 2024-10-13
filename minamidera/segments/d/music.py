@@ -21,18 +21,30 @@ def main() -> None:
     )
     dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_0_NAME])
     dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_1_NAME])
+    abjad.attach(
+        library.make_metric_modulation_markup(r"{ 8 }", r"{ \tuplet 3/2 { 8 r8 r8 } }"),
+        abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], 0),
+        direction=abjad.UP,
+    )
+    abjad.attach(
+        abjad.BarLine("|."), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], -1)
+    )
+    abjad.attach(
+        abjad.LilyPondLiteral(r"\end-note", site="after"),
+        abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], -1),
+    )
     pang.build.persist(score, metadata)
-    library.symlink_music_ily_from_segment_directory_to_build_directory("a")
+    library.symlink_music_ily_from_segment_directory_to_build_directory("d")
 
 
 def _sequence() -> pang.Sequence:
     return statemapper.map_state_sequence(
         statetransition.generate_flatten_state_sequences(
-            tuple([[1, 0, 1, 0]] * 10), 4, np.random.default_rng(6206365342936)
+            tuple([[0, 1, 0, 1]] * 10), 4, np.random.default_rng(86239563964936858738)
         ),
         5,
-        SoundPointsGeneratorFactory(0.75),
-        284564256496838456,
+        SoundPointsGeneratorFactory(0.2),
+        287364876234817236,
     )
 
 
@@ -54,20 +66,20 @@ def _voice_specifications(score: abjad.Score) -> tuple[pang.VoiceSpecification, 
 
 
 def _q_schema_right_hand() -> nauert.QSchema:
-    return _q_schema(nauert.UnweightedSearchTree(definition={2: {2: None}, 3: None}))
+    return _q_schema(nauert.UnweightedSearchTree(definition={3: {2: None}}))
 
 
 def _q_schema_left_hand() -> nauert.QSchema:
-    return _q_schema(nauert.UnweightedSearchTree(definition={5: None}))
+    return _q_schema(nauert.UnweightedSearchTree(definition={7: None}))
 
 
 def _q_schema(search_tree: nauert.SearchTree) -> nauert.QSchema:
     return nauert.MeasurewiseQSchema(
         search_tree=search_tree,
         tempo=abjad.MetronomeMark(
-            abjad.Duration(1, 4), fractions.Fraction(70), decimal=True
+            abjad.Duration(1, 4), fractions.Fraction(58.3333), decimal=True
         ),
-        time_signature=(3, 4),
+        time_signature=(5, 4),
     )
 
 
