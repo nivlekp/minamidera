@@ -17,3 +17,5 @@ lilypond_examples
 
 # stylesheets from abjad (which will get imported using a script)
 **/stylesheets/abjad_contrib
+
+.envrc
