@@ -16,7 +16,7 @@ def map_state_sequence(
 ) -> pang.Sequence:
     return pang.Sequence.from_sequences(
         [
-            map_state(
+            _map_state(
                 state,
                 state_duration,
                 sound_points_generator_factory,
@@ -29,21 +29,21 @@ def map_state_sequence(
     )
 
 
-def map_state(
+def _map_state(
     state: npt.NDArray,
     state_duration: float,
     sound_points_generator_factory: SoundPointsGeneratorFactory,
     random_number_generator: np.random.Generator,
 ) -> pang.Sequence:
     return pang.Sequence.from_sound_points_generator(
-        map_state_vector_to_sound_points_generator(
+        _map_state_vector_to_sound_points_generator(
             state, sound_points_generator_factory, random_number_generator
         ),
         state_duration,
     )
 
 
-def map_state_vector_to_sound_points_generator(
+def _map_state_vector_to_sound_points_generator(
     state_vector: npt.NDArray,
     sound_points_generator_factory: SoundPointsGeneratorFactory,
     seed: int | np.random.Generator,
