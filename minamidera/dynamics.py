@@ -1,4 +1,5 @@
 import abjad
+import pang
 
 
 def do_dynamics(voice: abjad.Component) -> None:
@@ -11,11 +12,8 @@ def _do_dynamics(
     logical_tie: abjad.LogicalTie, previous_dynamic: abjad.Dynamic | None
 ) -> abjad.Dynamic:
     leaf = abjad.get.leaf(logical_tie, 0)
-    current_dynamic = next(
-        attachment
-        for attachment in abjad.get.annotation(leaf, "q_event_attachments")
-        if isinstance(attachment, abjad.Dynamic)
-    )
+    assert leaf is not None
+    current_dynamic = pang.find.q_event_attachment(leaf, abjad.Dynamic)
     if current_dynamic != previous_dynamic:
         abjad.attach(current_dynamic, leaf)
     return current_dynamic
