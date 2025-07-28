@@ -2,9 +2,9 @@ import fractions
 import typing
 
 import abjad
+import nauert
 import numpy as np
 import pang
-from abjadext import nauert
 
 from minamidera import dynamics, library, statemapper, statetransition
 from minamidera.soundpointsgenerators import SoundPointsGeneratorFactory
@@ -17,21 +17,31 @@ def main() -> None:
     )
     metadata = pang.build.collect_metadata(score, quantizing_metadata)
     abjad.attach(
-        abjad.Clef("bass"), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_1_NAME], 0)
+        abjad.Clef("bass"),
+        pang.get.leaf(
+            typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_1_NAME]), 0
+        ),
     )
     dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_0_NAME])
     dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_1_NAME])
     abjad.attach(
         library.make_metric_modulation_markup(r"{ 8 }", r"{ \tuplet 3/2 { 8 r8 r8 } }"),
-        abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], 0),
+        pang.get.leaf(
+            typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_0_NAME]), 0
+        ),
         direction=abjad.UP,
     )
     abjad.attach(
-        abjad.BarLine("|."), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], -1)
+        abjad.BarLine("|."),
+        pang.get.leaf(
+            typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_0_NAME]), -1
+        ),
     )
     abjad.attach(
         abjad.LilyPondLiteral(r"\end-note", site="after"),
-        abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], -1),
+        pang.get.leaf(
+            typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_0_NAME]), -1
+        ),
     )
     pang.build.persist(score, metadata)
     library.symlink_music_ily_from_segment_directory_to_build_directory("d")

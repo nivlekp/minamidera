@@ -2,9 +2,9 @@ import fractions
 import typing
 
 import abjad
+import nauert
 import numpy as np
 import pang
-from abjadext import nauert
 
 from minamidera import dynamics, library, statemapper, statetransition
 from minamidera.soundpointsgenerators import SoundPointsGeneratorFactory
@@ -17,7 +17,10 @@ def main() -> None:
     )
     metadata = pang.build.collect_metadata(score, quantizing_metadata)
     abjad.attach(
-        abjad.Clef("bass"), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_1_NAME], 0)
+        abjad.Clef("bass"),
+        pang.get.leaf(
+            typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_1_NAME]), 0
+        ),
     )
     dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_0_NAME])
     dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_1_NAME])
