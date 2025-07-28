@@ -14,6 +14,7 @@ def _do_dynamics(
     leaf = abjad.get.leaf(logical_tie, 0)
     assert leaf is not None
     current_dynamic = pang.find.q_event_attachment(leaf, abjad.Dynamic)
+    assert current_dynamic is not None
     if current_dynamic != previous_dynamic:
         abjad.attach(current_dynamic, leaf)
     return current_dynamic

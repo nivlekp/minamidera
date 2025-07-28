@@ -17,7 +17,10 @@ def main() -> None:
     )
     metadata = pang.build.collect_metadata(score, quantizing_metadata)
     abjad.attach(
-        abjad.Clef("bass"), abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_1_NAME], 0)
+        abjad.Clef("bass"),
+        pang.get.leaf(
+            typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_1_NAME]), 0
+        ),
     )
     dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_0_NAME])
     dynamics.do_dynamics(score[library.PIANO_MUSIC_VOICE_1_NAME])
@@ -25,7 +28,9 @@ def main() -> None:
         library.make_metric_modulation_markup(
             r"{ \tuplet 5/4 { r16 r16 16 } }", r"{ \tuplet 7/4 { 8 r8 r8 } }"
         ),
-        abjad.get.leaf(score[library.PIANO_MUSIC_VOICE_0_NAME], 0),
+        pang.get.leaf(
+            typing.cast(abjad.Voice, score[library.PIANO_MUSIC_VOICE_0_NAME]), 0
+        ),
         direction=abjad.UP,
     )
     pang.build.persist(score, metadata)
