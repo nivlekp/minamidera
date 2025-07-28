@@ -2,9 +2,9 @@ import fractions
 import typing
 
 import abjad
+import nauert
 import numpy as np
 import pang
-from abjadext import nauert
 
 from minamidera import dynamics, library, statemapper, statetransition
 from minamidera.soundpointsgenerators import SoundPointsGeneratorFactory
